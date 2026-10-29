@@ -2,6 +2,7 @@ using System;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MVC.SampleObjectTypes;
 using DevExpress.Web.Mvc;
 using MVC.Services;
 

@@ -42,7 +42,7 @@ Namespace MVC.Services
 			' Returns report layout data stored in a Report Storage using the specified URL. 
 			' This method is called only for valid URLs after the IsValidUrl method is called.
 			Try
-				If Directory.EnumerateFiles(reportDirectory).Select(Path.GetFileNameWithoutExtension).Contains(url) Then
+                If Directory.EnumerateFiles(reportDirectory).Select(Function(filePath) Path.GetFileNameWithoutExtension(filePath)).Contains(url) Then
 					Return File.ReadAllBytes(Path.Combine(reportDirectory, url & FileExtension))
 				End If
 				If ReportsFactory.Reports.ContainsKey(url) Then
@@ -62,7 +62,7 @@ Namespace MVC.Services
 			' This method is called when running the Report Designer, 
 			' before the Open Report and Save Report dialogs are shown and after a new report is saved to a storage.
 
-			Return Directory.GetFiles(reportDirectory, "*" & FileExtension).Select(Path.GetFileNameWithoutExtension).Concat(ReportsFactory.Reports.Select(Function(x) x.Key)).ToDictionary(Function(x) x)
+           Return Directory.GetFiles(reportDirectory, "*" & FileExtension).Select(AddressOf Path.GetFileNameWithoutExtension).Concat(ReportsFactory.Reports.Select(Function(x) x.Key)).ToDictionary(Function(x) x)
 		End Function
 
 		Public Overrides Sub SetData(ByVal report As XtraReport, ByVal url As String)
